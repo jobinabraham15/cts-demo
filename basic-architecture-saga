@@ -1,0 +1,62 @@
+apis/
+    - staffing.js
+        : StaffingApi
+            get()
+            edit()
+            add()
+            delete()
+        
+sagas/
+    - staffing.js
+        : prefix = "STAFFING_"
+        : fetchListAction*
+            - Fetch the list of staffing entities
+            - StaffingApi.get()
+            - Put this into a reducer event
+        : UpdateListAction*
+            - Update the list of staffing actions
+        : onboarding
+            - yield STAFFING_ONBOARDING_USER_RECO
+            - yield STAFFING_ONBOARDING_CANDIDATE_SELECTED
+            - yield STAFFING_UPLOAD_FILE
+reducers/
+    - staffing.js
+        : staffing_update
+        : staffing_delete
+    
+    - Combine reducers
+        : {
+            grid: {
+                list:{},
+                pages: 2,
+                filters: {},
+                sort:{}
+            },
+            staffing: {
+                employeeOnboarding: {},
+                employeeEdit: {},
+                employeeFOrm: {}
+            }
+        }
+sagas/
+    - index.js
+        :sagas*
+            -yield [
+                fork(takeLatest, 'GRID_STAFFING', staffing.fetchListAction),
+                fork(takeLatest, 'GRID_CANDIDATE', candidate.fetchListAction),
+                
+                // Staffing saga events
+                fork(takeLatest, 'STAFFING_ONBOARDING', staffing.onboarding),
+                fork(takeLatest, 'STAFFING_EDIT', staffing.edit),
+                fork(takeLatest, 'STAFFING_UPLOAD_FILE', staffing.upload)
+
+                // Candidate saga events
+                fork(takeLatest, 'CANDIDATE_ONBOARDING', candidate.onboarding),
+
+                ]
+    - root.js
+        while(true){
+            sagas()
+        }
+
+- Can we put "PUT" prefix for all reducers??
