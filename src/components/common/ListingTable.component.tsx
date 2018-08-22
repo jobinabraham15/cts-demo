@@ -7,7 +7,14 @@ class ListingTable extends React.Component<IListingTable> {
     const tableProps = {
       columns: this.props.columns,
       dataSource: this.props.data,
-      expandedRowRender: this.props.expandRowComponent || null
+      expandedRowRender: this.props.expandRowComponent || null,
+      onRow: record => {
+        return {
+          onClick: () => {
+            this.props.onRowSelected(record);
+          }
+        };
+      }
     };
 
     return (

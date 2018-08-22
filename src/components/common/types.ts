@@ -9,4 +9,5 @@ export interface IListingTable {
   columns: Array<IListingTableColumn>;
   data: Array<any>;
   expandRowComponent?: any;
+  onRowSelected: Function;
 }

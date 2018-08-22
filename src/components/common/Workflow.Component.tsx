@@ -8,28 +8,17 @@ export interface IWorkFlowCompProps {
   fetchData: (payload?: any) => void;
 }
 const mapDispatchToProps = dispatch => ({
-  fetchData: payload => {
-    dispatch({
-      type: "WORKFLOW_FETCH",
-      payload
-    });
-  }
+  // fetchData: payload => {
+  //   dispatch({
+  //     type: "WORKFLOW_FETCH",
+  //     payload
+  //   });
+  // }
 });
 
 class Workflow extends React.Component<IWorkFlowCompProps> {
   componentDidMount() {
     console.log("this.props.active.fetch", this.props.active.fetch);
-    this.props.fetchData({
-      api: this.props.active.fetch,
-      apiArgs: {
-        Employee: {
-          AND: {
-            candidate_id: "b4d2d747-91e9-4a35-9038-ea288169f192"
-          }
-        }
-      },
-      key: this.props.active.key
-    });
   }
   createData = (data) => this.props.active.createDataFn(data);
   render() {

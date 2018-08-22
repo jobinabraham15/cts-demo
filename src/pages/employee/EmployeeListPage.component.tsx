@@ -18,9 +18,15 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  getList: (payload) => {
+  getList: payload => {
     dispatch({
       type: "GRIDLIST_EMPLOYEE",
+      payload
+    });
+  },
+  fetchWorkflowData: payload => {
+    dispatch({
+      type: "WORKFLOW_FETCH",
       payload
     });
   }
@@ -41,6 +47,22 @@ class EmployeeListPage extends React.Component<IListPageProps> {
     });
   }
 
+  onRowSelected = (row: any) => {
+    console.log("row", row);
+    const activeWorkFlow = employeeWorkflows[this.props.workflow.id];
+    this.props.fetchWorkflowData({
+      api: activeWorkFlow.fetch,
+      apiArgs: {
+        Employee: {
+          AND: {
+            candidate_id: row.candidate_id
+          }
+        }
+      },
+      key: activeWorkFlow.key
+    });
+  };
+
   render() {
     const { list } = this.props;
     const activeWorkFlow = employeeWorkflows[this.props.workflow.id];
@@ -49,11 +71,17 @@ class EmployeeListPage extends React.Component<IListPageProps> {
       <>
         <Row>
           <Col span={14}>
-            <ListingTable columns={columns} data={list} />
+            <ListingTable
+              columns={columns}
+              data={list}
+              onRowSelected={this.onRowSelected}
+            />
           </Col>
           <Col span={10}>
             {/* <Workflow active={activeWorkFlow} data={this.props.workflow}/> */}
-            {activeWorkFlow ? <Workflow active={activeWorkFlow} data={this.props.workflow} /> : null }
+            {activeWorkFlow ? (
+              <Workflow active={activeWorkFlow} data={this.props.workflow} />
+            ) : null}
           </Col>
         </Row>
       </>

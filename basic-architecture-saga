@@ -97,3 +97,27 @@ workflow: {
     - puts the data into the state by specifying the proper keys
         
 
+Middleware subscribe to abortEvent() 
+    events: {
+        abort_1: {
+            1: fn,
+            2: fn,
+            3. fn
+        },
+        abort_2: {
+            
+        }
+    }
+- Component ---> Emits "LIST_FETCH" event send pubsub op in variables -----> ----> Start Gql query -----> Middleware subscribe to abortEvent() ------Make Query--->Query in progress
+- 
+
+1. Component Emits "LIST_FETCH"
+    a. Passes an "abortable" : Boolean
+
+2. Saga :
+    a. Publish the 'abort_[operationName]' event;
+    b. Make graphql query
+    c. gql Middleware - 
+        1. Unsubscribes any existing 'abort_[operationName]' subscriptions
+        2. Add new subscriptions
+        3. Forward the request
