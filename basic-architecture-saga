@@ -60,3 +60,40 @@ sagas/
         }
 
 - Can we put "PUT" prefix for all reducers??
+
+
+
+
+- In grid state, add "workflow" to determine the active workflow
+workflow: {
+    id,
+    application: {},
+    recommendation: {},
+    ...
+} 
+- Single WorkFlow Model: {
+    id,
+    render: <Component>,
+    data: (state) => {
+        state.applications
+        state.recommendations
+        do some customLogic here
+    }
+
+
+- ListingPageComponent
+    - () => 
+        - < WorkFlowWidget render = {(workflowReducerData): {
+            <workflowDict[workFlow].render storedData = {...workflowReducerData} createData={...workflow.dataFn}>
+        }}
+
+- SampleWorkflowComponent 
+    - Props: workflowReducerData
+    - method:
+        - data: this.props.createData() // data manipulation logic
+        - actions : dispatchActions
+- Generic Request Event :
+    - calls api given to it via arguments
+    - puts the data into the state by specifying the proper keys
+        
+

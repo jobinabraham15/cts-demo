@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Route, Switch } from "react-router-dom";
 import "pages/app/App.css";
 import { Layout, Menu, Icon } from "antd";
 import AppPanel from "pages/app-panel/AppPanel.component";
@@ -30,7 +31,10 @@ class App extends React.Component {
           </Menu>
         </Sider>
         <Layout>
-          <AppPanel />
+          <Switch>
+            {/* <AppPanel /> */}
+            <Route path="/" component={AppPanel} />
+          </Switch>
         </Layout>
       </Layout>
     );
