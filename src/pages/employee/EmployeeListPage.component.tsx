@@ -7,6 +7,7 @@ import { IListingTableColumn } from "components/common/types";
 import { Col, Row } from "antd";
 import Workflow from "components/common/Workflow.Component";
 import employeeWorkflows from "pages/employee/employee.workflows";
+import WorkflowSelect from "components/common/WorkflowSelect.component";
 
 // TODO: Can we use render props to make the list page into reusable components????
 
@@ -24,9 +25,23 @@ const mapDispatchToProps = dispatch => ({
       payload
     });
   },
+  selectRow: id => {
+    dispatch({
+      type: "GRIDSELECT_ENTITY",
+      payload: {
+        id
+      }
+    });
+  },
   fetchWorkflowData: payload => {
     dispatch({
       type: "WORKFLOW_FETCH",
+      payload
+    });
+  },
+  fetchWorkflowChange: payload => {
+    dispatch({
+      type: "WORKFLOW_CHANGE",
       payload
     });
   }
@@ -43,30 +58,36 @@ const columns: Array<IListingTableColumn> = [
 class EmployeeListPage extends React.Component<IListPageProps> {
   componentDidMount() {
     this.props.getList({
-      workflow: "workflow_1"
+      default_workflow: "workflow_1",
+      workflows: employeeWorkflows
     });
   }
 
   onRowSelected = (row: any) => {
-    console.log("row", row);
-    const activeWorkFlow = employeeWorkflows[this.props.workflow.id];
-    this.props.fetchWorkflowData({
-      api: activeWorkFlow.fetch,
-      apiArgs: {
-        Employee: {
-          AND: {
-            candidate_id: row.candidate_id
-          }
-        }
-      },
-      key: activeWorkFlow.key
-    });
+    this.props.selectRow(row.id);
+  };
+
+  onWorkFlowChange = ({ key }) => {
+    console.log("recor");
   };
 
   render() {
     const { list } = this.props;
     const activeWorkFlow = employeeWorkflows[this.props.workflow.id];
-    console.log("activeWorkFlow", activeWorkFlow);
+    const workFlowData = this.props.workflow;
+    const workFlowOptions = Object.keys(employeeWorkflows).map(key => ({
+      display: key,
+      value: key
+    }));
+
+    // Change the workflowrelated data from redux store to array. The component needs to know in advance about the keys required by the workflow component
+    // Todo: Can we somehow configure the shape of data in the workflowconfig
+    if (workFlowData.relatedJobs) {
+      workFlowData.relatedJobs = Object.keys(workFlowData.relatedJobs).map(
+        key => workFlowData.relatedJobs[key]
+      );
+    }
+
     return (
       <>
         <Row>
@@ -80,7 +101,16 @@ class EmployeeListPage extends React.Component<IListPageProps> {
           <Col span={10}>
             {/* <Workflow active={activeWorkFlow} data={this.props.workflow}/> */}
             {activeWorkFlow ? (
-              <Workflow active={activeWorkFlow} data={this.props.workflow} />
+              <Workflow
+                active={activeWorkFlow}
+                data={workFlowData}
+                select={() => (
+                  <WorkflowSelect
+                    items={workFlowOptions}
+                    onChange={this.onWorkFlowChange}
+                  />
+                )}
+              />
             ) : null}
           </Col>
         </Row>

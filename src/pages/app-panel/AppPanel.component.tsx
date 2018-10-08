@@ -3,6 +3,7 @@ import { Layout } from "antd";
 import { Route } from "react-router";
 import EmployeeListPage from "pages/employee/EmployeeListPage.component.tsx";
 import { Switch } from "react-router-dom";
+import ListingPageDrawer from "components/common/ListingPageDrawer.component";
 
 const { Header, Content, Footer } = Layout;
 class AppPanel extends React.Component {
@@ -12,12 +13,8 @@ class AppPanel extends React.Component {
         <Header style={{ background: "#fff", padding: 0 }} />
         <Content style={{ margin: "0 16px" }}>
           <Switch>
-              <Route
-                exact={true}
-                path="/"
-                component={EmployeeListPage}
-              />
-            </Switch>
+            <Route exact={true} path="/" component={EmployeeListPage} />
+          </Switch>
           {/* <Breadcrumb style={{ margin: "16px 0" }}>
             <Breadcrumb.Item>User</Breadcrumb.Item>
             <Breadcrumb.Item>Bill</Breadcrumb.Item>
@@ -27,7 +24,7 @@ class AppPanel extends React.Component {
           </div> */}
         </Content>
         <Footer style={{ textAlign: "center" }}>
-          Ant Design ©2018 Created by Ant UED
+          <ListingPageDrawer />
         </Footer>
       </>
     );

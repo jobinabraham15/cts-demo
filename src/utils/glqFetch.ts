@@ -6,7 +6,12 @@ export const gQLFetch: (
   errorPolicy?: "none" | "ignore" | "all" | undefined
 ) => Promise<any> = (query, variables, errorPolicy = "all") => {
   const options = {
-    query: query,
+    query: {
+      ...query,
+      context: {
+        "abortable": true
+      }
+    },
     variables: variables,
     errorPolicy: errorPolicy,
   };

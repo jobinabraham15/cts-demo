@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "antd": "^3.8.1",
+    "antd": "^3.8.4",
     "apollo-boost": "^0.1.13",
     "apollo-cache-inmemory": "^1.2.8",
     "apollo-link": "^1.2.2",

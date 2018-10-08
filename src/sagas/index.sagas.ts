@@ -1,6 +1,7 @@
 import { takeLatest } from "../../node_modules/redux-saga/effects";
 import { list } from "sagas/employee.saga";
-import { workflowFetch } from "sagas/worklflows.saga";
+import { workflowFetch, workFlowChange } from "sagas/worklflows.saga";
+import { selectGridEntity } from "sagas/grid.saga";
 
 // const fetchGridList = (action) => {
 //     const actionType = action.type;
@@ -17,6 +18,8 @@ import { workflowFetch } from "sagas/worklflows.saga";
 export function* sagas() {
   yield [
     takeLatest("GRIDLIST_EMPLOYEE", list),
+    takeLatest("GRIDSELECT_ENTITY", selectGridEntity),
     takeLatest("WORKFLOW_FETCH", workflowFetch),
+    takeLatest("WORKFLOW_CHANGE", workFlowChange)
   ];
 }

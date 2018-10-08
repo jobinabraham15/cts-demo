@@ -1,38 +1,25 @@
 import * as React from "react";
-import { connect } from "react-redux";
+import { Card } from "antd";
 
 export interface IWorkFlowCompProps {
   render?: Function;
   data?: any;
   active?: any;
-  fetchData: (payload?: any) => void;
+  fetchData?: (payload?: any) => void;
+  select: () => any;
 }
-const mapDispatchToProps = dispatch => ({
-  // fetchData: payload => {
-  //   dispatch({
-  //     type: "WORKFLOW_FETCH",
-  //     payload
-  //   });
-  // }
-});
 
 class Workflow extends React.Component<IWorkFlowCompProps> {
-  componentDidMount() {
-    console.log("this.props.active.fetch", this.props.active.fetch);
-  }
-  createData = (data) => this.props.active.createDataFn(data);
+  createData = data => this.props.active.createDataFn(data);
   render() {
     const WorkflowComponent = this.props.active.render;
     const data = this.createData(this.props.data);
     return (
-      <>
+      <Card title={'Workflow'} extra={this.props.select()}>
         <WorkflowComponent data={data} />
-      </>
+      </Card>
     );
   }
 }
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(Workflow);
+export default Workflow;

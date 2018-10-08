@@ -4,9 +4,17 @@ import EmployeeApi from "apis/employee";
 const employeeWorkflows = {
   workflow_1: {
     render: EmployeeCandidateWorkflow,
-    createDataFn: workflowState => {
-      console.log("workflowstate", workflowState);
-      return workflowState.relatedJobs;
+    createDataFn: state => {
+      return state.relatedJobs;
+    },
+    buildArgs: row => {
+      return {
+        Employee: {
+          AND: {
+            candidate_id: row.candidate_id
+          }
+        }
+      };
     },
     fetch: EmployeeApi.get,
     key: "relatedJobs"

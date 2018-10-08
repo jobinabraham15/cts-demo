@@ -3,4 +3,5 @@ export interface IListPageProps {
   workflow: any;
   getList: (payload: any) => void;
   fetchWorkflowData: (payload: any) => void;
+  selectRow: (id: string) => void;
 }

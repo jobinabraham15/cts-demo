@@ -1,3 +1,14 @@
+reducer: {
+    grid: {
+        selected: {
+            id: <GRID_ENTITY_SELECTED>
+        },
+        list: {},
+        workflow: {}
+    }
+}
+
+
 apis/
     - staffing.js
         : StaffingApi
@@ -121,3 +132,29 @@ Middleware subscribe to abortEvent()
         1. Unsubscribes any existing 'abort_[operationName]' subscriptions
         2. Add new subscriptions
         3. Forward the request
+
+
+Component Tells saga/Saga knows the query is abortable
+---->Saga Hits gql fetch with "isAbortable"
+---->gqlFetch() -> Check is isabortable is True,
+    ---> Create an AbortSignal for this request;
+    ---> Create a Subscription with a token generator
+        ---> OperationName + "_ABORTABLE";
+    ---> Pass this signal to context;
+    
+----> is called
+
+
+Loaders - 
+    Redux - 
+        - Loaders
+            : {
+                token_1 : true
+            }
+
+        - Apollo - Gets the token associated with the loader and 
+    
+1. Create a render prop that renders the children - 
+    - Create a <Loader> Component;
+    - It renders all its children
+    - How to pass loader token
