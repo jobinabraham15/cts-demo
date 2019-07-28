@@ -12,7 +12,7 @@ class EmployeeCandidateWorkflow extends React.Component<IEmpCandWF> {
     return (
       <List
         dataSource={data}
-        renderItem={item => (
+        renderItem={(item: any) => (
           <List.Item
             actions={[
               <a key={"show_more"}>Show More Info</a>,
